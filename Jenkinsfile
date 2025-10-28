@@ -62,7 +62,7 @@ pipeline {
                         # npm run lint
                         
                         # Run unit tests with coverage
-                        npm test -- --coverage
+                        npm run test:coverage
                         
                         # Security audit
                         npm audit --audit-level moderate || true
