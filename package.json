@@ -1,0 +1,38 @@
+{
+  "name": "devops-demo-app",
+  "version": "1.0.0",
+  "description": "Simple Node.js app for DevOps pipeline demo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "health": "curl -f http://localhost:3000/health || exit 1",
+    "docker:build": "docker build -t nodejs-demo .",
+    "docker:run": "docker run -p 3000:3000 nodejs-demo",
+    "docker:test": "docker run -d --name test-app -p 8081:3000 nodejs-demo && sleep 5 && curl -f http://localhost:8081/health && docker stop test-app && docker rm test-app"
+  },
+  "keywords": ["devops", "nodejs", "demo", "jenkins", "kubernetes"],
+  "author": "DevOps Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "compression": "^1.7.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "eslint": "^8.52.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}
