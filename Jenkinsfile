@@ -223,11 +223,8 @@ pipeline {
     post {
         always {
             script {
-                // Cleanup docker images to save space
-                sh """
-                    docker image prune -f
-                    docker image rm ${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} 2>/dev/null || true
-                """
+                sh 'docker image prune -f || true'
+                sh "docker image rm ${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} 2>/dev/null || true"
             }
         }
         
