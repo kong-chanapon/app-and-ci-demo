@@ -226,7 +226,7 @@ pipeline {
                 // Cleanup docker images to save space
                 sh """
                     docker image prune -f
-                    docker rmi ${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} || true
+                    docker image rm ${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} 2>/dev/null || true
                 """
             }
         }
