@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     tools {
         nodejs "Node18"
     }
@@ -24,7 +24,7 @@ pipeline {
         
         // Kubernetes & ArgoCD config
         K8S_NAMESPACE = 'default'
-        HELM_CHART_REPO = 'https://github.com/kong-chanapon/nodejs-demo-chart.git' // Helm chart repository
+        HELM_CHART_REPO = 'https://github.com/kong-chanapon/k8s-demo.git' // Helm chart repository
         ARGOCD_APP_NAME = 'nodejs-demo'
         
         // Tools
