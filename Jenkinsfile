@@ -1,6 +1,10 @@
 pipeline {
     agent any
     
+    tools {
+        nodejs "Node18"
+    }
+
     options {
         // Keep last 10 builds
         buildDiscarder(logRotator(numToKeepStr: '10'))
@@ -11,7 +15,7 @@ pipeline {
     environment {
         // Docker registry - for local use Docker Hub or local registry
         DOCKER_REGISTRY = 'docker.io' // or your local registry
-        DOCKER_USERNAME = 'kongchanapon' // เปลี่ยนเป็น username ที่ถูกต้อง
+        DOCKER_USERNAME = 'chanapon63070028' // เปลี่ยนเป็น username ที่ถูกต้อง
         IMAGE_NAME = 'nodejs-demo'
         
         // Dynamic versioning
