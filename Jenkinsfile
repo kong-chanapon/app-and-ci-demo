@@ -1,9 +1,8 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs "NodeJS"
-    }
+    // Using Docker for Node.js operations instead of Jenkins NodeJS tool
+    // to avoid system dependency issues on ARM64 architecture
 
     options {
         // Keep last 10 builds
@@ -51,21 +50,16 @@ pipeline {
         stage('🧪 Run Tests') {
             steps {
                 script {
-                    echo "🧪 Running Node.js tests..."
+                    echo "🧪 Running Node.js tests in Docker container..."
                     
-                    // Install dependencies and run tests
+                    // Run tests using Docker to avoid Node.js compatibility issues
                     sh """
-                        # Install dependencies
-                        npm ci
-                        
-                        # Run linting (if eslint is configured)
-                        # npm run lint
-                        
-                        # Run unit tests with coverage
-                        npm run test:coverage
-                        
-                        # Security audit
-                        npm audit --audit-level moderate || true
+                        # Run tests in Node.js Docker container
+                        docker run --rm -v \${PWD}:/app -w /app node:18-alpine sh -c "
+                            npm ci && 
+                            npm run test:coverage &&
+                            npm audit --audit-level moderate || true
+                        "
                     """
                 }
             }
