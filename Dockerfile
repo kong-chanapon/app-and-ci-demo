@@ -1,5 +1,5 @@
 # Multi-stage build for optimal image size
-FROM node:18-alpine AS builder
+FROM node:18-bookworm-slim AS builder
 
 # Set working directory
 WORKDIR /app
@@ -11,19 +11,19 @@ COPY package*.json ./
 RUN npm ci --only=production && npm cache clean --force
 
 # Production stage
-FROM node:18-alpine AS production
+FROM node:18-bookworm-slim AS production
 
 # Add metadata labels
 LABEL maintainer="devops-team"
 LABEL version="1.0.0"
 LABEL description="DevOps Demo Node.js App"
 
-# Install dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init curl
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends dumb-init curl && \
+    rm -rf /var/lib/apt/lists/*
 
-# Create app directory and non-root user
-RUN addgroup -g 1001 -S nodeapp && \
-    adduser -S -D -H -u 1001 -h /app -s /sbin/nologin -G nodeapp -g nodeapp nodeapp
+RUN groupadd -g 1001 nodeapp && \
+    useradd -m -u 1001 -g nodeapp -s /usr/sbin/nologin nodeapp
 
 # Set working directory
 WORKDIR /app
