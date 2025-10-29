@@ -54,8 +54,8 @@ pipeline {
                     
                     // Run tests using Docker to avoid Node.js compatibility issues
                     sh """
-                        # Run tests in Node.js Docker container
-                        docker run --rm -v \${PWD}:/app -w /app node:18-alpine sh -c "
+                        # Run tests in Node.js Docker container (best practice: use bookworm-slim)
+                        docker run --rm -v \${PWD}:/app -w /app node:18-bookworm-slim sh -c "
                             npm ci && 
                             npm run test:coverage &&
                             npm audit --audit-level moderate || true
